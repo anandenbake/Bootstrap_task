@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+   <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script>
+          <link href="http://mottie.github.io/tablesorter/css/theme.default.css" rel="stylesheet">
+
+      <script>
+        $(function(){
+          $("#myDummyTable").tablesorter({widgets: ['zebra']});
+        });
+       
+               
+       function myFunction() {
+		  var input, filter, table, tr, td, i;
+		  input = document.getElementById("myInput");
+		  filter = input.value.toUpperCase();
+		  table = document.getElementById("myDummyTable");
+		  tr = table.getElementsByTagName("tr");
+		  for (i = 0; i < tr.length; i++) {
+		    td = tr[i].getElementsByTagName("td")[0];
+		    if (td) {
+		      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		        tr[i].style.display = "";
+		      } else {
+		        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+   
+    </script>    
+<script>
+ 
+ $.fn.pageMe = function(opts){
+    var $this = this,
+        defaults = {
+            perPage: 6,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
+    
+    var listElement = $this;
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.length;
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+  	pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('li .page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('li .prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('li .next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+      	pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+$(document).ready(function(){
+    
+  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+    
+});
+</script>
+ </head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Logo</a></li>
+      <li class="active"><a href="#">About</a></li>
+      <li class="active"><a href="#">Services</a></li>
+      <li class="active"><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+    
+<div class=" container">
+ <div class="row">
+ <div class="col-sm-8">
+ <div class=" jumbotron text-center">
+    <h1>900x350</h1>
+  <p>Resize this responsive page to see the effect!</p> 
+ </div>
+</div>
+
+<div class=col-sm-4"></div>
+    <h2>Business Name or Tagline</h2>
+	<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<hr></hr>
+      <div class="well text-center">This is a well that is agreat spot for business tagling or phone number for easy access!</div>
+   <div class="container">
+<h2>Table</h2>        
+
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> 
+
+                                                                            
+  <div class="table-responsive">          
+  <table class="table">
+       <table id="myDummyTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+          <thead>
+            <tr>
+        <th>Sr.no</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>Country</th>
+      </tr>
+          </thead>
+          <tbody id="myTable">
+            <tr>
+              <td>1</td>
+             <td>Anna</td>
+	    <td>Pitt</td>
+	    <td>35</td>
+  	    <td>anna@gmail.com</td>
+	    <td>New York</td>
+	   <td>USA</td>
+            </tr>
+            <tr>
+              <td>2</td>
+		<td>Ajay</td>
+		<td>Sharma</td>
+		<td>23</td>
+		<td>ajay@yahoo.com</td>
+		<td>Ghaziabad</td>
+		<td>India</td>
+            </tr>
+            <tr>
+                <td>3</td>
+		<td>Steve</td>
+		<td>Piterson</td>
+		<td>45</td>
+		<td>s_pit@ymail.com
+		<td>Sydney</td>
+		<td>Australia</td>
+            </tr>
+            <tr>
+                <td>4</td>
+		<td>Sonu</td>
+		<td>Kumar</td>
+		<td>19</td>
+                <td>sonu@gmail.com</td>
+		<td>kathol</td>
+		<td>India</td>
+            </tr>
+            <tr class="success">
+               <td>5</td>
+		<td>Ali</td>
+		<td>Khan</td>
+		<td>47</td>
+                <td>ali@outloo.com</td>
+		<td>Karachi</td>
+		<td>Pakistan</td>
+	     </tr>
+            <tr>
+              <td>6</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+             <tr>
+              <td>8</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+         </tbody>
+     </table>   
+</div>
+	   <div class="col-md-12 text-center">
+          <ul class="pagination pagination-lg pager" id="myPager"></ul>
+      </div>
+  </div>
+</div>
+
+        <div class="row">
+		    <div class="col-sm-4">
+		      <h3>Heading 1</h3>
+		      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+		      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+	   <button type="button" class="btn btn-default">More Info</button>
+    </div>
+      <div class="col-sm-4">
+        <h3>Heading 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+        <button type="button" class="btn btn-default">More Info</button>
+    </div>
+    <div class="col-sm-4">
+      <h3>Heading 3</h3>        
+	      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+	      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+	     <button type="button" class="btn btn-default">More Info</button>
+     </div>
+   </div>
+ </div>
+<br/>  
+
+ <div class="container">
+<p>Copyright <span class="glyphicon glyphicon-copyright-mark"> Your Website 2014</span></p>   
+</div>
+
+</body>
+</html>
